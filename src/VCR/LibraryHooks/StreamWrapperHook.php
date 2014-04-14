@@ -80,8 +80,14 @@ class StreamWrapperHook implements LibraryHook
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
+        $ctx = stream_context_get_options($this->context);
+		$request = new Request('POST', $path);
+		if (isset($ctx['http']) && isset($ctx['http']['content']))
+		{
+			$request->setBody($ctx['http']['content']);
+		}
         $requestCallback = self::$requestCallback;
-        $this->response = $requestCallback(new Request('GET', $path));
+        $this->response = $requestCallback($request);
 
         return true;
     }
