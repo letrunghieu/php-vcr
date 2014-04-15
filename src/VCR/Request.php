@@ -155,7 +155,7 @@ class Request extends EntityEnclosingRequest
         }
 		
 		if (isset($request['body'])) {
-			$requestObject->addBody($request['body']);
+			$requestObject->setBody($request['body']);
 		}
 
         return $requestObject;
