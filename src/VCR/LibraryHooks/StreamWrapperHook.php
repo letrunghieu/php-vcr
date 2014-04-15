@@ -236,6 +236,6 @@ class StreamWrapperHook implements LibraryHook
      */
     public function __destruct()
     {
-        self::$requestCallback = null;
+//        self::$requestCallback = null;
     }
 }
