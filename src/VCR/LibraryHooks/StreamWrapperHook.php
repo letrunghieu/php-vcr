@@ -81,8 +81,21 @@ class StreamWrapperHook implements LibraryHook
     public function stream_open($path, $mode, $options, &$opened_path)
     {
         $ctx = stream_context_get_options($this->context);
-		$request = new Request('POST', $path);
-		if (isset($ctx['http']) && isset($ctx['http']['content']))
+		$method = 'GET';
+		$body = null;
+		if ($ctx && isset($ctx['http']))
+		{
+			if (isset($ctx['http']['method']))
+			{
+				$method = strtoupper($ctx['http']['method']);
+			}
+			if (isset($ctx['http']['content']))
+			{
+				$body = $ctx['http']['content'];
+			}
+		}
+		$request = new Request($method, $path);
+		if ($body !== null)
 		{
 			$request->setBody($ctx['http']['content']);
 		}
